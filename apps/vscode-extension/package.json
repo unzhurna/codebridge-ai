@@ -1,0 +1,109 @@
+{
+  "name": "codebridge-vscode",
+  "displayName": "CodeBridge AI",
+  "description": "Local-first browser AI bridge with project context, approved file writes, and auditable agent sessions.",
+  "version": "0.9.0",
+  "publisher": "codebridge-ai",
+  "license": "Apache-2.0",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codebridge.startPairing",
+        "title": "CodeBridge: Start Pairing"
+      },
+      {
+        "command": "codebridge.stopBridge",
+        "title": "CodeBridge: Stop Bridge"
+      },
+      {
+        "command": "codebridge.showStatus",
+        "title": "CodeBridge: Show Status"
+      },
+      {
+        "command": "codebridge.rollbackLastApply",
+        "title": "CodeBridge: Rollback Last Apply"
+      },
+      {
+        "command": "codebridge.analyzeProject",
+        "title": "CodeBridge: Analyze Project"
+      },
+      {
+        "command": "codebridge.searchProject",
+        "title": "CodeBridge: Search Project Context"
+      },
+      {
+        "command": "codebridge.createWorkflow",
+        "title": "CodeBridge: Create AI Development Workflow"
+      },
+      {
+        "command": "codebridge.updateWorkflowStage",
+        "title": "CodeBridge: Update Workflow Stage"
+      },
+      {
+        "command": "codebridge.updateWorkflowTask",
+        "title": "CodeBridge: Update Workflow Task"
+      },
+      {
+        "command": "codebridge.startAgentRun",
+        "title": "CodeBridge: Start Agent Run"
+      },
+      {
+        "command": "codebridge.stopAgentRun",
+        "title": "CodeBridge: Stop Agent Run"
+      },
+      {
+        "command": "codebridge.showAgentHistory",
+        "title": "CodeBridge: Show Agent Session History"
+      }
+    ],
+    "configuration": {
+      "title": "CodeBridge AI",
+      "properties": {
+        "codebridge.indexMaxFiles": {
+          "type": "number",
+          "default": 500,
+          "minimum": 50,
+          "maximum": 2000,
+          "description": "Maximum number of files scanned by the local project analyzer."
+        },
+        "codebridge.port": {
+          "type": "number",
+          "default": 47831,
+          "description": "Local WebSocket bridge port."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "prebuild": "pnpm --filter @codebridge/protocol build",
+    "build": "node ./esbuild.mjs",
+    "watch": "node ./esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "package": "pnpm build && vsce package",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@codebridge/protocol": "workspace:*",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.1",
+    "@types/vscode": "^1.95.0",
+    "@types/ws": "^8.18.1",
+    "esbuild": "^0.25.12",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4",
+    "@vscode/vsce": "^3.6.2"
+  }
+}
